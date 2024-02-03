@@ -12,6 +12,6 @@ num1 = float(input("Ingrese el segundo valor: "))
 resultado = suma_de_parametros (num, num1)
 
 if resultado:
-    print (f"La suma de {num} + {num1} es par. ")
+    print (f"True porque la suma de {num} + {num1} es par. ")
 else:
-    print (f"La suma de {num} + {num1} es impar. ")
+    print (f"False porque la suma de {num} + {num1} es impar. ")
