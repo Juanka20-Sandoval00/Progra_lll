@@ -1,26 +1,30 @@
-class TreeNode(object):
-    def __init__(self,x):
-        self.val = x
+class TreeNode:
+    def __init__(self, value):
+        self.val = value
         self.left = None
         self.right = None
 
 def closest_value(root, target):
-    a = root.val
-    kid = root.left if target < a else root.right
-    if not kid:
-        return a
-    b = closest_value(kid, target)
-    return min((a,b), key = lambda x: abs(target - x))
+    closest = root.val
+    
+    while root:
+        if abs(root.val - target) < abs(closest - target):
+            closest = root.val
+        
+        root = root.left if target < root.val else root.right
+    
+    return closest
 
-root = TreeNode(8)
-root.left = TreeNode(5)
-root.right = TreeNode(14)
-root.left.left = TreeNode(4)
+root = TreeNode(9)
+root.left = TreeNode(4)
+root.right = TreeNode(17)
+root.left.left = TreeNode(3)
 root.left.right = TreeNode(6)
-root.left.right.left = TreeNode(8)
+root.left.right.left = TreeNode(5)
 root.left.right.right = TreeNode(7)
-root.right.right = TreeNode(24)
-root.right.right.left = TreeNode(22)
+root.right.right = TreeNode(22)
+root.right.right.left = TreeNode(20)
 
-result = closest_value(root,19)
-print(result)
+# Encontramos el valor más cercano al objetivo en el árbol
+result = closest_value(root, 16)
+print(f"El valor más cercano en el árbol es: {result}")
