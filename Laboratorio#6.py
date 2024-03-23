@@ -68,6 +68,7 @@ thread_arduino.start()
 
 # Iniciar el bucle de la interfaz de usuario
 ventana.mainloop()
+#Codigo de ARDUINO
 """void setup() {
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
