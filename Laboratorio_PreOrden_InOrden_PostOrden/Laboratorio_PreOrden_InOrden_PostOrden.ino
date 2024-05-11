@@ -1,99 +1,48 @@
-const int buttonPin1 = 2;
-const int buttonPin2 = 3;
-const int buttonPin3 = 4;
-const int ledPin4 = 5;
-const int ledPin5 = 6;
-const int ledPin6 = 7;
+const int segmentos[] = {2, 3, 4, 5, 6, 7, 8};
+const int punto = 9; // Pin para el punto decimal
+const int totalSegmentos = 8;
 
-bool leerPotenciometro = true;
+// Definir los patrones para cada número
+const byte numeros[10][8] = {
+  {1, 1, 1, 1, 1, 1, 0, 0}, // 0
+  {0, 1, 1, 0, 0, 0, 0, 0}, // 1
+  {1, 1, 0, 1, 1, 0, 1, 0}, // 2
+  {1, 1, 1, 1, 0, 0, 1, 0}, // 3
+  {0, 1, 1, 0, 0, 1, 1, 0}, // 4
+  {1, 0, 1, 1, 0, 1, 1, 0}, // 5
+  {1, 0, 1, 1, 1, 1, 1, 0}, // 6
+  {1, 1, 1, 0, 0, 0, 0, 0}, // 7
+  {1, 1, 1, 1, 1, 1, 1, 0}, // 8
+  {1, 1, 1, 1, 0, 1, 1, 0}  // 9
+};
 
 void setup() {
-  pinMode(buttonPin1, INPUT_PULLUP);
-  pinMode(buttonPin2, INPUT_PULLUP);
-  pinMode(buttonPin3, INPUT_PULLUP);
-  pinMode(ledPin4, OUTPUT);
-  pinMode(ledPin5, OUTPUT);
-  pinMode(ledPin6, OUTPUT);
-  Serial.begin(9600);
+  // Configurar los pines de los segmentos como salida
+  for (int i = 0; i < totalSegmentos; i++) {
+    pinMode(segmentos[i], OUTPUT);
+  }
+  // Configurar el pin del punto como salida
+  pinMode(punto, OUTPUT);
 }
 
 void loop() {
-  if (leerPotenciometro) {
-    int pot = analogRead(A3);
-    Serial.println(pot);
-    delay(10);
+  for (int i = 0; i < 10; i++) {
+    mostrarNumero(i);
+    delay(1000); // Esperar un segundo
   }
-  int buttonState1 = digitalRead(buttonPin1);
-  int buttonState2 = digitalRead(buttonPin2);
-  int buttonState3 = digitalRead(buttonPin3);
-  
-  if (buttonState1 == LOW) {
-    Serial.println("InOrden ejecutado");
-    digitalWrite(ledPin6, HIGH);
-    Serial.println(1);
-    delay(1000);
-    digitalWrite(ledPin6, LOW);
-    Serial.println(0);
-    delay(1000);
-    digitalWrite(ledPin4, HIGH);
-    Serial.println(3);
-    delay(1000);
-    digitalWrite(ledPin4, LOW);
-    Serial.println(0);
-    delay(1000);
-    digitalWrite(ledPin5, HIGH);
-    Serial.println(2);
-    delay(1000);
-    digitalWrite(ledPin5, LOW);
-    Serial.println(0);
-    delay(1000);
-    Serial.println("InOrden terminado");
-    delay(2000);
-  }
-  if(buttonState2 == LOW){
-    Serial.println("PostOrden ejecutado");
-    digitalWrite(ledPin4, HIGH);
-    Serial.println(3);
-    delay(1000);
-    digitalWrite(ledPin4, LOW);
-    Serial.println(0);
-    delay(1000);
-    digitalWrite(ledPin6, HIGH);
-    Serial.println(1);
-    delay(1000);
-    digitalWrite(ledPin6, LOW);
-    Serial.println(0);
-    delay(1000);
-    digitalWrite(ledPin5, HIGH);
-    Serial.println(2);
-    delay(1000);
-    digitalWrite(ledPin5, LOW);
-    Serial.println(0);
-    delay(1000);
-    Serial.println("PostOrden terminado");
-    delay(2000);
-  }
-  if(buttonState3 == LOW){
-    Serial.println("PreOrden ejecutado");
-    digitalWrite(ledPin5, HIGH);
-    Serial.println(2);
-    delay(1000);
-    digitalWrite(ledPin5, LOW);
-    Serial.println(0);
-    delay(1000);
-    digitalWrite(ledPin4, HIGH);
-    Serial.println(3);
-    delay(1000);
-    digitalWrite(ledPin4, LOW);
-    Serial.println(0);
-    delay(1000);
-    digitalWrite(ledPin6, HIGH);
-    Serial.println(1);
-    delay(1000);
-    digitalWrite(ledPin6, LOW);
-    Serial.println(0);
-    Serial.println("PreOrden terminado");
-    delay(2000);
-  }
+}
 
+// Función para mostrar un número en el display
+void mostrarNumero(int numero) {
+  // Apagar todos los segmentos
+  for (int i = 0; i < totalSegmentos; i++) {
+    digitalWrite(segmentos[i], LOW); // Ánodo común
+  }
+  digitalWrite(punto, LOW); // Apagar el punto
+
+  // Encender los segmentos correspondientes al número
+  for (int i = 0; i < totalSegmentos; i++) {
+    digitalWrite(segmentos[i], numeros[numero][i]); // Ánodo común
+  }
+  digitalWrite(punto, numeros[numero][totalSegmentos]); // Encender el punto si está activo
 }

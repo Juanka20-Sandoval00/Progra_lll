@@ -1,0 +1,10 @@
+graph Grafo {
+  A;
+  A -- B;
+  A -- D;
+  A -- C;
+  B;
+  C;
+  C -- D;
+  D;
+}
