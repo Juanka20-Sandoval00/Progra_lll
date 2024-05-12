@@ -1,0 +1,26 @@
+int relayPin = 8;  // Pin para controlar el relé
+int ledPin = 12;   // Pin para el LED adicional
+
+void setup() {
+  Serial.begin(9600);  // Inicializa la comunicación serial
+  pinMode(relayPin, OUTPUT);  // Configura el pin del relé como salida
+  pinMode(ledPin, OUTPUT);    // Configura el pin del LED como salida
+}
+
+void loop() {
+  // Encender el relé y esperar 2 segundos
+  digitalWrite(relayPin, HIGH);  // Activa el relé
+  Serial.println("Relé encendido");
+  delay(2000);
+
+  // Apagar el relé y encender el LED por un milisegundo
+  digitalWrite(relayPin, LOW);  // Desactiva el relé
+  digitalWrite(ledPin, HIGH);    // Enciende el LED
+  Serial.println("LED encendido");
+  delay(1000);  // Espera un milisegundo
+  digitalWrite(ledPin, LOW);     // Apaga el LED
+  Serial.println("LED apagado");
+
+  // Esperar 2 segundos antes de repetir el ciclo
+  delay(2000);
+}
