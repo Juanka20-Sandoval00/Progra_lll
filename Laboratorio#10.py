@@ -77,3 +77,92 @@ botonServo.bind("<Leave>", lambda e: on_leave(e, botonServo))
 
 # Ejecución del bucle principal de la ventana
 root.mainloop()
+
+"""" Codigo de Arduino 
+#include <Stepper.h>
+#include <Servo.h>
+
+// Definir el número de pasos para el motor paso a paso
+const int STEPS_PER_REVOLUTION = 2048;
+
+// Crear un objeto de la clase Stepper para el motor paso a paso
+Stepper stepperMotor(STEPS_PER_REVOLUTION, 8, 10, 9, 11);
+
+// Crear un objeto de la clase Servo para el servo motor
+Servo servoMotor;
+
+void setup() {
+  // Conectar el servo motor al pin digital 2
+  servoMotor.attach(2);
+
+  // Establecer la velocidad del motor paso a paso en 10 RPM
+  stepperMotor.setSpeed(10);
+
+  // Iniciar la comunicación serial a 9600 baudios
+  Serial.begin(9600);
+
+  // Mensaje inicial en el monitor serial
+  Serial.println("Sistema de control de motores iniciado.");
+  Serial.println("Ingrese '1' para mover el motor paso a paso.");
+  Serial.println("Ingrese '2' para mover el servo motor.");
+}
+
+void loop() {
+  // Verificar si hay datos disponibles en el buffer serial
+  if (Serial.available() > 0) {
+    // Leer un carácter del buffer serial
+    char command = Serial.read();
+
+    // Ejecutar la función correspondiente según el comando recibido
+    if (command == '1') {
+      controlStepperMotor();
+    } else if (command == '2') {
+      controlServoMotor();
+    }
+  }
+}
+
+void controlStepperMotor() {
+  Serial.println("Inicio del movimiento del motor paso a paso.");
+
+  // Mover el motor paso a paso una vuelta completa en una dirección
+  stepperMotor.step(STEPS_PER_REVOLUTION);
+  delay(500); // Esperar medio segundo
+
+  // Mover el motor paso a paso una vuelta completa en la dirección opuesta
+  stepperMotor.step(-STEPS_PER_REVOLUTION);
+  delay(500); // Esperar medio segundo
+
+  Serial.println("Fin del movimiento del motor paso a paso.");
+}
+
+void controlServoMotor() {
+  Serial.println("Inicio del movimiento del servo motor.");
+
+  // Mover el servo motor a varias posiciones con pausas intermedias
+  moveServoToPosition(0);   // Mover a 0 grados
+  delay(500);
+
+  moveServoToPosition(90);  // Mover a 90 grados
+  delay(500);
+
+  moveServoToPosition(180); // Mover a 180 grados
+  delay(500);
+
+  moveServoToPosition(90);  // Volver a 90 grados
+  delay(500);
+
+  moveServoToPosition(0);   // Volver a 0 grados
+  delay(500);
+
+  Serial.println("Fin del movimiento del servo motor.");
+}
+
+void moveServoToPosition(int position) {
+  // Mover el servo motor a la posición especificada
+  servoMotor.write(position);
+  Serial.print("Servo movido a ");
+  Serial.print(position);
+  Serial.println(" grados.");
+}
+"""
